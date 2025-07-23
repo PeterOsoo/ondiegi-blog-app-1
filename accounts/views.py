@@ -15,6 +15,9 @@ from .forms import CustomUserCreationForm  # replace old import
 
 from django.contrib.auth.models import User
 
+from django.contrib.auth import logout
+
+
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def register_user(request):
@@ -80,3 +83,9 @@ def login_view(request):
         return Response({'error': 'Invalid credentials'}, status=400)
 
     return render(request, 'accounts/login.html', {'error': 'Invalid credentials'})
+
+
+
+def logout_view(request):
+    logout(request)
+    return redirect('login')  # or 'register' or a homepage later
