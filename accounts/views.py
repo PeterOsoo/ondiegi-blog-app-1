@@ -10,6 +10,9 @@ from .serializers import RegisterSerializer
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 
+from .forms import CustomUserCreationForm  # replace old import
+
+
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -41,10 +44,10 @@ def login_user(request):
 
 def register_view(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('login')  # name of your login url
+            return redirect('login')  # We’ll fix this next
     else:
-        form = UserCreationForm()
+        form = CustomUserCreationForm()
     return render(request, 'accounts/register.html', {'form': form})
