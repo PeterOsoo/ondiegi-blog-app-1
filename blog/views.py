@@ -18,11 +18,8 @@ class CreateBlogPostView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
-        data = request.data.copy()
-        data['author'] = request.user.id  # Set author from token
-        serializer = BlogPostSerializer(data=data)
-
+        serializer = BlogPostSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
+            serializer.save(author=request.user)  # set author here
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
