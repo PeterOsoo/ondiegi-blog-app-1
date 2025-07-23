@@ -13,6 +13,8 @@ from rest_framework.decorators import permission_classes
 
 from django.contrib.auth import authenticate
 
+from rest_framework.permissions import IsAuthenticated
+
 
 
 # Create your views here.
@@ -49,3 +51,17 @@ def login_user(request):
         return Response({'token': token.key})
     else:
         return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
+
+
+class CreateBlogPostView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        data = request.data.copy()
+        data['author'] = request.user.id  # set author from token
+        serializer = BlogPostSerializer(data=data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
