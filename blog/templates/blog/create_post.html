@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}Create Blog Post{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+  <div class="card mx-auto" style="max-width: 600px;">
+    <div class="card-body">
+      <h4 class="card-title mb-4">📝 Create New Blog Post</h4>
+      <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-success">Post</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

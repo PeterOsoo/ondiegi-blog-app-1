@@ -12,6 +12,12 @@
       <!-- Left-aligned nav items -->
       <ul class="navbar-nav me-auto">
         <!-- Add more left-side links here if needed -->
+        {% if user.is_authenticated %}
+        
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'blog-posts' %}">Blog Posts</a>
+        </li>
+        {% endif %}
       </ul>
 
       <!-- Right-aligned nav items -->
@@ -19,6 +25,9 @@
         {% if user.is_authenticated %}
         <li class="nav-item">
           <a class="nav-link" href="#">Hi {{ user.username }}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'create-post' %}">Create Post</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{% url 'profile' %}">Profile</a>
