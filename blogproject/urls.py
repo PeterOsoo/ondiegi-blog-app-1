@@ -20,7 +20,8 @@ from django.urls import path, include
 urlpatterns = [
     path('', include('pages.urls')),  # 👈 homepage & static pages
     path('admin/', admin.site.urls),
-    path('blog/', include('blog.urls')),  
+     path('blog/', include('blog.html_urls')),  # 👉 HTML views for blog
+    path('api/', include('blog.api_urls')),    # 👉 API-only endpoints
     path('auth/', include('accounts.urls')),  # 👈 This line
 
 ]
