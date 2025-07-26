@@ -46,7 +46,7 @@ def login_user(request):
         token, created = Token.objects.get_or_create(user=user)
         return Response({'token': token.key})
     else:
-        return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
+        return Response({'error': 'Invalid credentials!'}, status=status.HTTP_401_UNAUTHORIZED)
 
 
 # ✅ HTML Registration View
