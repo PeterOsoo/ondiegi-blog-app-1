@@ -3,25 +3,34 @@
 {% block title %}Register{% endblock %}
 
 {% block content %}
-<h2>Register</h2>
-<form method="post">
-  {% csrf_token %}
-  <div class="mb-3">
-    <label for="id_username" class="form-label">Username</label>
-    {{ form.username }}
+<div class="d-flex justify-content-center mt-5">
+  <div class="card p-4 shadow-sm" style="min-width: 350px; max-width: 450px; width: 100%;">
+    <h2 class="text-center mb-4">Register</h2>
+    <form method="post">
+      {% csrf_token %}
+
+      <div class="mb-3">
+        <label for="id_username" class="form-label">Username</label>
+        {{ form.username }}
+      </div>
+
+      <div class="mb-3">
+        <label for="id_email" class="form-label">Email</label>
+        {{ form.email }}
+      </div>
+
+      <div class="mb-3">
+        <label for="id_password1" class="form-label">Password</label>
+        {{ form.password1 }}
+      </div>
+
+      <div class="mb-3">
+        <label for="id_password2" class="form-label">Confirm Password</label>
+        {{ form.password2 }}
+      </div>
+
+      <button type="submit" class="btn btn-primary w-100">Register</button>
+    </form>
   </div>
-  <div class="mb-3">
-    <label for="id_email" class="form-label">Email</label>
-    {{ form.email }}
-  </div>
-  <div class="mb-3">
-    <label for="id_password1" class="form-label">Password</label>
-    {{ form.password1 }}
-  </div>
-  <div class="mb-3">
-    <label for="id_password2" class="form-label">Confirm Password</label>
-    {{ form.password2 }}
-  </div>
-  <button type="submit" class="btn btn-primary">Register</button>
-</form>
+</div>
 {% endblock %}
