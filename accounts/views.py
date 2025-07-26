@@ -52,7 +52,9 @@ def register_view(request):
         if form.is_valid():
             form.save()
             messages.success(request, "Registration successful! Please log in.")
-            return redirect('login')
+            next_url = request.GET.get('next') or 'home'
+            return redirect(next_url)
+
     else:
         form = CustomUserCreationForm()
     return render(request, 'accounts/register.html', {'form': form})
@@ -81,7 +83,8 @@ def login_view(request):
         if request.content_type == 'application/json':
             return Response({'token': token.key})
         messages.success(request, 'Logged in successfully ✅')
-        return redirect('home')  # ✅ Redirect to a home page (coming up next)
+        next_url = request.GET.get('next') or 'home'  # fallback to home if no ?next=
+        return redirect(next_url)
 
     if request.content_type == 'application/json':
         return Response({'error': 'Invalid credentials'}, status=400)

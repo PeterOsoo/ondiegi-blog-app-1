@@ -14,6 +14,9 @@ from pathlib import Path
 
 import os
 
+from datetime import datetime
+
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -140,3 +143,15 @@ REST_FRAMEWORK = {
 }
 
 APPEND_SLASH = True  # already True by default, but worth checking
+
+LOGIN_URL = '/auth/login/'
+LOGIN_REDIRECT_URL = '/'
+
+
+def year_context(request):
+    return {'year': datetime.now().year}
+
+# Add it to settings.py
+TEMPLATES[0]['OPTIONS']['context_processors'] += [
+    'blogproject.settings.year_context',  # or wherever you put it
+]

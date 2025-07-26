@@ -1,4 +1,3 @@
-<!-- templates/base.html -->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,19 +7,23 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
-<body>
-    {% include 'navbar/navbar.html' %}  <!-- ✅ Included Navbar -->
+<body class="d-flex flex-column min-vh-100">
 
-  <div class="container mt-4">
+  {% include 'navbar/navbar.html' %}
+
+  <main class="container mt-4 flex-grow-1">
     {% if messages %}
-    {% for message in messages %}
-    <div class="alert alert-{{ message.tags }}">
-      {{ message }}
-    </div>
-    {% endfor %}
+      {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+          {{ message }}
+        </div>
+      {% endfor %}
     {% endif %}
-    {% block content %}{% endblock %}
-  </div>
-</body>
 
+    {% block content %}{% endblock %}
+  </main>
+
+  {% include "navbar/footer.html" %}
+
+</body>
 </html>
