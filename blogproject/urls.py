@@ -18,10 +18,10 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
+    path('', include('pages.urls')),  # 👈 homepage & static pages
     path('admin/', admin.site.urls),
     path('api/', include('blog.urls')),  
-    path('', include('pages.urls')),  # 👈 homepage & static pages
-    path('', include('accounts.urls')),  # 👈 This line
+    path('auth/', include('accounts.urls')),  # 👈 This line
 
 ]
 
