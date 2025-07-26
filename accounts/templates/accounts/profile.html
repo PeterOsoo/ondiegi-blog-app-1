@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+  <div class="card mx-auto" style="max-width: 500px;">
+    <div class="card-body">
+      <h4 class="card-title">👤 Profile Details</h4>
+      <p><strong>Username:</strong> {{ user.username }}</p>
+      <p><strong>Email:</strong> {{ user.email }}</p>
+      <p><strong>First Name:</strong> {{ user.first_name|default:"(Not set)" }}</p>
+      <p><strong>Last Name:</strong> {{ user.last_name|default:"(Not set)" }}</p>
+      <!-- Future update button will go here -->
+    </div>
+  </div>
+</div>
+{% endblock %}

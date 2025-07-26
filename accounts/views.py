@@ -17,8 +17,6 @@ from django.contrib.auth.decorators import login_required
 
 
 
-
-
 # ✅ API Registration
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -98,3 +96,6 @@ def logout_view(request):
     return redirect('login')
 
 
+@login_required
+def profile_view(request):
+    return render(request, 'accounts/profile.html', {'user': request.user})
