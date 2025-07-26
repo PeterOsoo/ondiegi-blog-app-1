@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}Welcome to My Blog{% endblock %}
+
+{% block content %}
+  <div class="text-center">
+    <h1 class="display-4">Welcome to My Blog App 📝</h1>
+    <p class="lead">Create, view, and manage blog posts with authentication.</p>
+    {% if user.is_authenticated %}
+      <a href="{% url 'logout' %}" class="btn btn-outline-danger mt-3">Logout</a>
+    {% else %}
+      <a href="{% url 'login' %}" class="btn btn-primary mt-3">Login</a>
+      <a href="{% url 'register' %}" class="btn btn-success mt-3 ms-2">Register</a>
+    {% endif %}
+  </div>
+{% endblock %}
