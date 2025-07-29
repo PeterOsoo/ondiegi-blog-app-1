@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Permission Denied{% endblock %}
+{% block content %}
+<div class="text-center mt-5">
+  <h1 class="display-4">403 – Forbidden</h1>
+  <p class="lead">You do not have permission to access this page.</p>
+  <a href="{% url 'home' %}" class="btn btn-warning">Return Home</a>
+</div>
+{% endblock %}
