@@ -6,6 +6,7 @@ from rest_framework import status
 from .models import BlogPost
 from .serializers import BlogPostSerializer
 
+from django.views.generic import DetailView
 
 # html view 
 from django.contrib.auth.decorators import login_required
@@ -49,3 +50,11 @@ def create_post_view(request):
         form = BlogPostForm()
     
     return render(request, 'blog/create_post.html', {'form': form})
+
+
+
+
+class BlogPostDetailView(DetailView):
+    model = BlogPost
+    template_name = 'blog/view_post.html'
+    context_object_name = 'post'

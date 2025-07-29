@@ -13,6 +13,8 @@
           <p class="card-text">
             {{ post.content|truncatechars:150 }}
           </p>
+          <a href="{% url 'view-post' post.pk %}">Read more →</a>
+
           <p class="text-muted">
             By <strong>{{ post.author.username }}</strong> • {{ post.created_at|date:"M d, Y H:i" }}
           </p>
