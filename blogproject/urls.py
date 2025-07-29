@@ -17,6 +17,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+from django.conf.urls import handler404, handler500
+from pages import views as pages_views  # Assuming you use 'pages' app
+
+
+
 urlpatterns = [
     path('', include('pages.urls')),  # 👈 homepage & static pages
     path('admin/', admin.site.urls),
@@ -27,3 +32,8 @@ urlpatterns = [
 ]
 
 
+# Custom error handlers
+handler404 = 'pages.views.custom_404'
+handler500 = 'pages.views.custom_500'
+handler400 = 'pages.views.custom_400'
+handler403 = 'pages.views.custom_403'
