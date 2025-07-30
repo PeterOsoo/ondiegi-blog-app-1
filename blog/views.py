@@ -34,7 +34,6 @@ class CreateBlogPostView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@login_required
 def blog_list_view(request):
     posts = BlogPost.objects.all().order_by('-created_at')
     return render(request, 'blog/blog_list.html', {'posts': posts})
