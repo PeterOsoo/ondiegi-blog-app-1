@@ -6,9 +6,12 @@ from rest_framework import status
 from .models import BlogPost
 from .serializers import BlogPostSerializer
 
-from django.views.generic import DetailView
 
-# html view 
+
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.views.generic import DetailView, UpdateView, DeleteView
+from django.urls import reverse_lazy
+
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from .forms import BlogPostForm
@@ -58,3 +61,26 @@ class BlogPostDetailView(DetailView):
     model = BlogPost
     template_name = 'blog/view_post.html'
     context_object_name = 'post'
+
+
+
+class BlogPostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = BlogPost
+    fields = ['title', 'content']
+    template_name = 'blog/edit_post.html'
+
+    def test_func(self):
+        post = self.get_object()
+        return self.request.user == post.author
+
+    def get_success_url(self):
+        return reverse_lazy('view-post', kwargs={'pk': self.object.pk})
+
+class BlogPostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = BlogPost
+    template_name = 'blog/delete_post.html'
+    success_url = reverse_lazy('blog-list')  # you can adjust if needed
+
+    def test_func(self):
+        post = self.get_object()
+        return self.request.user == post.author
