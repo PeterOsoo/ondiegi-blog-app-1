@@ -15,6 +15,7 @@ from .forms import CustomUserCreationForm, ProfileUpdateForm
 
 from django.contrib.auth.decorators import login_required
 
+from django.contrib.auth.forms import UserChangeForm
 
 
 
@@ -114,3 +115,22 @@ def profile_view(request):
         form = ProfileUpdateForm(instance=request.user)
 
     return render(request, 'accounts/profile.html', {'user': request.user, 'form': form})
+
+
+# update page 
+
+
+@login_required
+def edit_profile_view(request):
+    user = request.user
+
+    if request.method == 'POST':
+        form = ProfileUpdateForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Profile updated successfully ✅')
+            return redirect('profile')
+    else:
+        form = ProfileUpdateForm(instance=user)
+
+    return render(request, 'accounts/edit_profile.html', {'form': form})
