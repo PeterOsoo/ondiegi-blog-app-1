@@ -2,16 +2,20 @@
 {% block title %}{{ user.username }} - Profile{% endblock %}
 
 {% block content %}
-  <div class="container mt-4">
-    <h2>👤 Profile Details</h2>
+<div class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
 
-    <ul class="list-unstyled">
-      <li><strong>Username:</strong> {{ user.username }}</li>
-      <li><strong>Email:</strong> {{ user.email }}</li>
-      <li><strong>First Name:</strong> {{ user.first_name|default:"(Not set)" }}</li>
-      <li><strong>Last Name:</strong> {{ user.last_name|default:"(Not set)" }}</li>
-    </ul>
+  <div class="d-flex justify-content-center mt-5">
+    <div class="card p-4 shadow-sm" style="min-width: 350px; max-width: 450px; width: 100%;">
+      <h2 class="text-center mb-4">👤 Profile Details</h2>
 
-    <a href="{% url 'edit-profile' %}" class="btn btn-sm btn-warning mt-3">Update Profile</a>
+      <ul class="list-unstyled">
+        <li><strong>Username:</strong> {{ user.username }}</li>
+        <li><strong>Email:</strong> {{ user.email }}</li>
+        <li><strong>First Name:</strong> {{ user.first_name|default:"(Not set)" }}</li>
+        <li><strong>Last Name:</strong> {{ user.last_name|default:"(Not set)" }}</li>
+      </ul>
+
+      <a href="{% url 'edit-profile' %}" class="btn btn-sm btn-warning mt-3 w-100">Update Profile</a>
+    </div>
   </div>
-{% endblock %}
+  {% endblock %}
