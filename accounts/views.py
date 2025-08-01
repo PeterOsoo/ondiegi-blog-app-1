@@ -11,9 +11,10 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 
 from .serializers import RegisterSerializer  
-from .forms import CustomUserCreationForm
+from .forms import CustomUserCreationForm, ProfileUpdateForm
 
 from django.contrib.auth.decorators import login_required
+
 
 
 
@@ -99,6 +100,17 @@ def logout_view(request):
     return redirect('login')
 
 
+
+
 @login_required
 def profile_view(request):
-    return render(request, 'accounts/profile.html', {'user': request.user})
+    if request.method == 'POST':
+        form = ProfileUpdateForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Profile updated successfully ✅')
+            return redirect('profile')
+    else:
+        form = ProfileUpdateForm(instance=request.user)
+
+    return render(request, 'accounts/profile.html', {'user': request.user, 'form': form})
