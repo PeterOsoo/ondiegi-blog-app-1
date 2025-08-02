@@ -6,6 +6,9 @@ from rest_framework import status
 from .models import BlogPost
 from .serializers import BlogPostSerializer
 
+from django.contrib import messages  
+
+
 
 
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -47,6 +50,7 @@ def create_post_view(request):
             blog_post = form.save(commit=False)
             blog_post.author = request.user
             blog_post.save()
+            messages.success(request, "✅ Post created successfully.")
             return redirect('blog-posts')  
     else:
         form = BlogPostForm()
@@ -68,6 +72,10 @@ class BlogPostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     fields = ['title', 'content']
     template_name = 'blog/edit_post.html'
 
+    def form_valid(self, form):
+        messages.success(self.request, "✅ Post updated successfully!")
+        return super().form_valid(form)
+
     def test_func(self):
         post = self.get_object()
         return self.request.user == post.author
@@ -78,8 +86,12 @@ class BlogPostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 class BlogPostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = BlogPost
     template_name = 'blog/delete_post.html'
-    success_url = reverse_lazy('blog-list')  # you can adjust if needed
+    success_url = reverse_lazy('blog-posts')  
 
     def test_func(self):
         post = self.get_object()
         return self.request.user == post.author
+    
+    def delete(self, request, *args, **kwargs):
+        messages.success(request, "🗑️ Post deleted successfully.")
+        return super().delete(request, *args, **kwargs)
