@@ -39,7 +39,7 @@ class CreateBlogPostView(APIView):
 def blog_list_view(request):
     posts = BlogPost.objects.all().order_by('-created_at')
 
-    paginator = Paginator(posts, 2)  # Show 5 posts per page
+    paginator = Paginator(posts, 6)  # Show 5 posts per page
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
