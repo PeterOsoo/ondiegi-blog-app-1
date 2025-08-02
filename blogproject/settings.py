@@ -153,5 +153,5 @@ def year_context(request):
 
 # Add it to settings.py
 TEMPLATES[0]['OPTIONS']['context_processors'] += [
-    'blogproject.settings.year_context',  # or wherever you put it
+    'blogproject.settings.year_context',  # Add the year context processor
 ]
