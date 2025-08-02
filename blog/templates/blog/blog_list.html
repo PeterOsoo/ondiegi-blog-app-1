@@ -5,25 +5,49 @@
 <div class="container mt-5">
   <h2 class="mb-4">📝 Latest Blog Posts</h2>
 
-  {% if posts %}
-    {% for post in posts %}
+  {% if page_obj %}
+    {% for post in page_obj %}
       <div class="card mb-4 border-0 shadow-sm rounded-3">
         <div class="card-body">
           <h3 class="card-title">{{ post.title }}</h3>
           <p class="card-subtitle text-muted mb-2">
             By <strong>{{ post.author.username }}</strong> • {{ post.created_at|date:"M d, Y H:i" }}
           </p>
-
           <p class="card-text mt-3 text-body">
             {{ post.content|truncatewords:30 }}{% if post.content|length > 200 %}...{% endif %}
           </p>
-
-          <a href="{% url 'view-post' post.pk %}" class="btn btn-outline-primary btn-sm mt-2">
-            Read more →
-          </a>
+          <a href="{% url 'view-post' post.pk %}" class="btn btn-outline-primary btn-sm mt-2">Read more →</a>
         </div>
       </div>
     {% endfor %}
+
+    <!-- Pagination Controls -->
+    <nav aria-label="Page navigation">
+      <ul class="pagination justify-content-center">
+
+        {% if page_obj.has_previous %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.previous_page_number }}">←</a>
+          </li>
+        {% endif %}
+
+        {% for num in page_obj.paginator.page_range %}
+          {% if num == page_obj.number %}
+            <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+          {% elif num >= page_obj.number|add:'-2' and num <= page_obj.number|add:'2' %}
+            <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+          {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.next_page_number }}">→</a>
+          </li>
+        {% endif %}
+
+      </ul>
+    </nav>
+
   {% else %}
     <div class="alert alert-info">
       No blog posts found. Be the first to <a href="{% url 'create-post' %}">create one</a>!

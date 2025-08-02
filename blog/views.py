@@ -7,8 +7,7 @@ from .models import BlogPost
 from .serializers import BlogPostSerializer
 
 from django.contrib import messages  
-
-
+from django.core.paginator import Paginator
 
 
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -39,7 +38,13 @@ class CreateBlogPostView(APIView):
 
 def blog_list_view(request):
     posts = BlogPost.objects.all().order_by('-created_at')
-    return render(request, 'blog/blog_list.html', {'posts': posts})
+
+    paginator = Paginator(posts, 2)  # Show 5 posts per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, 'blog/blog_list.html', {'page_obj': page_obj})
+
 
 
 @login_required
