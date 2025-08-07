@@ -12,7 +12,7 @@ from .views import (
 urlpatterns = [
     path('', blog_list_view, name='blog-posts'),  # 👉 now serves HTML
     path('create/', create_post_view, name='create-post'),
-    path('<int:pk>/', BlogPostDetailView.as_view(), name='view-post'),
+    path('<slug:slug>/', BlogPostDetailView.as_view(), name='view-post'),
     path('<int:pk>/edit/', BlogPostUpdateView.as_view(), name='edit-post'),
     path('<int:pk>/delete/', BlogPostDeleteView.as_view(), name='delete-post'),
 

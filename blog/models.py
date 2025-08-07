@@ -4,13 +4,10 @@ from django.utils.text import slugify
 
 class BlogPost(models.Model):
     title = models.CharField(max_length=200)
-    slug = models.SlugField(unique=True)
+    slug = models.SlugField(unique=True, blank=True)  # new field
     content = models.TextField()
     author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return self.title
 
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -22,3 +19,6 @@ class BlogPost(models.Model):
                 counter += 1
             self.slug = slug
         super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.title
