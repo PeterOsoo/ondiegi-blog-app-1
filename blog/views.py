@@ -69,6 +69,9 @@ class BlogPostDetailView(DetailView):
     model = BlogPost
     template_name = 'blog/view_post.html'
     context_object_name = 'post'
+    slug_field = 'slug'
+    slug_url_kwarg = 'slug'
+
 
 
 
