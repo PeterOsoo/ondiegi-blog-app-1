@@ -9,3 +9,5 @@ urlpatterns = [
     path('<slug:slug>/', BlogPostDetailView.as_view(), name='view-post'),
 ]
 
+# DO NOT USE THIS FILE FOR API ENDPOINTS OR HTML VIEWS
+# Use blog/api_urls.py for API endpoints and blog/urls.py for HTML views.
