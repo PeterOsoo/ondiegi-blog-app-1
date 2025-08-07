@@ -6,6 +6,6 @@ urlpatterns = [
     path('create/', create_post_view, name='create-post'),
     path('api/create/', CreateBlogPostView.as_view(), name='api-create-post'),
     path('api/posts/', BlogPostListView.as_view(), name='api-posts'),  # 👉 moved here
-    path('<int:pk>/', BlogPostDetailView.as_view(), name='view-post'),
+    path('<slug:slug>/', BlogPostDetailView.as_view(), name='view-post'),
 ]
 
