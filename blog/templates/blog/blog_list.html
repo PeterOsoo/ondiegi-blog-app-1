@@ -82,9 +82,15 @@
   </nav>
 
   {% else %}
-  <div class="alert alert-info">
+  <div class="alert alert-warning text-center">
+    {% if query %}
+    No blog posts found for "<strong>{{ query }}</strong>".
+    <a href="{% url 'blog-posts' %}" class="btn btn-link">Back to all posts</a>
+    {% else %}
     No blog posts found. Be the first to <a href="{% url 'create-post' %}">create one</a>!
+    {% endif %}
   </div>
   {% endif %}
+
 </div>
 {% endblock %}
