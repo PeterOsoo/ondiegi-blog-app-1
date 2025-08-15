@@ -18,6 +18,9 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from .forms import BlogPostForm
 
+from django.db.models import Q
+
+
 class BlogPostListView(APIView):
     def get(self, request):
         posts = BlogPost.objects.all().order_by('-created_at')
@@ -37,13 +40,22 @@ class CreateBlogPostView(APIView):
 
 
 def blog_list_view(request):
+    query = request.GET.get('q', '')  # get search query if exists
     posts = BlogPost.objects.all().order_by('-created_at')
 
-    paginator = Paginator(posts, 6)  # Show 5 posts per page
+    if query:
+        posts = posts.filter(
+            Q(title__icontains=query) | Q(content__icontains=query)
+        )
+
+    paginator = Paginator(posts, 5)  # same pagination as before
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
-    return render(request, 'blog/blog_list.html', {'page_obj': page_obj})
+    return render(request, 'blog/blog_list.html', {
+        'page_obj': page_obj,
+        'query': query,  # send query back to template
+    })
 
 
 

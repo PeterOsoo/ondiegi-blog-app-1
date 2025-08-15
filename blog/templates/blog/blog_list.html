@@ -5,6 +5,14 @@
 <div class="container mt-5">
   <h2 class="mb-4">📝 Latest Blog Posts</h2>
 
+  <form method="GET" action="">
+    <div class="input-group mb-4">
+      <input type="text" name="q" value="{{ query }}" class="form-control" placeholder="Search posts...">
+      <button class="btn btn-primary" type="submit">Search</button>
+    </div>
+  </form>
+
+
   {% if page_obj %}
   {% for post in page_obj %}
   <div class="card mb-4 border-0 shadow-sm rounded-3">
