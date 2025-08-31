@@ -21,6 +21,10 @@
       <p class="card-subtitle text-muted mb-2">
         By <strong>{{ post.author.username }}</strong> • {{ post.created_at|date:"M d, Y H:i" }}
       </p>
+      <p class="text-muted mb-1">
+        {{ post.reading_time }} min read
+      </p>
+
       <p class="card-text mt-3 text-body">
         {{ post.content|truncatewords:30 }}{% if post.content|length > 200 %}...{% endif %}
       </p>

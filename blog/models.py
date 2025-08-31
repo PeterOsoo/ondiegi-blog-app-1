@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.text import slugify
+import math
 
 class BlogPost(models.Model):
     title = models.CharField(max_length=200)
@@ -20,5 +21,11 @@ class BlogPost(models.Model):
             self.slug = slug
         super().save(*args, **kwargs)
 
+    def reading_time(self):
+        word_count = len(self.content.split())
+        return math.ceil(word_count / 200)  # 200 words per min
+
     def __str__(self):
         return self.title
+
+    
