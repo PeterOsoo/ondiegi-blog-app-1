@@ -114,7 +114,8 @@ class BlogPostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         post = self.get_object()
         return self.request.user == post.author
 
-    def delete(self, request, *args, **kwargs):
-        messages.success(request, "🗑️ Post deleted successfully.")
-        return super().delete(request, *args, **kwargs)
+    def form_valid(self, form):
+        messages.success(self.request, "🗑️ Post deleted successfully.")
+        return super().form_valid(form)
+
 
