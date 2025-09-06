@@ -12,13 +12,14 @@ from django.core.paginator import Paginator
 
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import DetailView, UpdateView, DeleteView
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from .forms import BlogPostForm
 
 from django.db.models import Q
+
 
 
 class BlogPostListView(APIView):
@@ -101,7 +102,7 @@ class BlogPostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return self.request.user == post.author
 
     def get_success_url(self):
-        return reverse_lazy('view-post', kwargs={'pk': self.object.pk})
+        return reverse('view-post', kwargs={'slug': self.object.slug})
 
 class BlogPostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = BlogPost
