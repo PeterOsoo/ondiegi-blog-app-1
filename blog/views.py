@@ -76,8 +76,6 @@ def create_post_view(request):
     return render(request, 'blog/create_post.html', {'form': form})
 
 
-
-
 class BlogPostDetailView(DetailView):
     model = BlogPost
     template_name = 'blog/view_post.html'
@@ -86,12 +84,12 @@ class BlogPostDetailView(DetailView):
     slug_url_kwarg = 'slug'
 
 
-
-
 class BlogPostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = BlogPost
     fields = ['title', 'content']
     template_name = 'blog/edit_post.html'
+    slug_field = 'slug'
+    slug_url_kwarg = 'slug'
 
     def form_valid(self, form):
         messages.success(self.request, "✅ Post updated successfully!")
@@ -104,15 +102,19 @@ class BlogPostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     def get_success_url(self):
         return reverse('view-post', kwargs={'slug': self.object.slug})
 
+
 class BlogPostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = BlogPost
     template_name = 'blog/delete_post.html'
-    success_url = reverse_lazy('blog-posts')  
+    slug_field = 'slug'
+    slug_url_kwarg = 'slug'
+    success_url = reverse_lazy('blog-posts')
 
     def test_func(self):
         post = self.get_object()
         return self.request.user == post.author
-    
+
     def delete(self, request, *args, **kwargs):
         messages.success(request, "🗑️ Post deleted successfully.")
         return super().delete(request, *args, **kwargs)
+
