@@ -4,15 +4,22 @@ from django.utils.text import slugify
 import math
 
 
+
 class Category(models.Model):
     name = models.CharField(max_length=100, unique=True)
-    slug = models.SlugField(max_length=120, unique=True)
+    slug = models.SlugField(max_length=120, unique=True, blank=True)
 
     class Meta:
         verbose_name_plural = "Categories"
 
+    def save(self, *args, **kwargs):
+        if not self.slug:  # only generate if empty
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return self.name
+
     
 class BlogPost(models.Model):
     title = models.CharField(max_length=200)
