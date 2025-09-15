@@ -7,7 +7,7 @@ class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = ["id", "name", "slug"]
-
+        read_only_fields = ["slug"]  # ✅ slug will be auto-generated
 
 class BlogPostSerializer(serializers.ModelSerializer):
     category = CategorySerializer(read_only=True)
