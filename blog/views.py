@@ -20,6 +20,8 @@ from .forms import BlogPostForm
 
 from django.db.models import Q
 
+# blog/views.py
+from rest_framework import generics
 
 
 class BlogPostListView(APIView):
@@ -53,7 +55,9 @@ class CategoryListView(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
+class CategoryListCreateView(generics.ListCreateAPIView):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
 
 def blog_list_view(request):
     query = request.GET.get('q', '')  # get search query if exists
