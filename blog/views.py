@@ -3,8 +3,8 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 
-from .models import BlogPost
-from .serializers import BlogPostSerializer
+from .models import BlogPost, Category
+from .serializers import BlogPostSerializer, CategorySerializer
 
 from django.contrib import messages  
 from django.core.paginator import Paginator
@@ -36,6 +36,20 @@ class CreateBlogPostView(APIView):
         serializer = BlogPostSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save(author=request.user)  # category_id handled automatically
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class CategoryListView(APIView):
+    def get(self, request):
+        categories = Category.objects.all().order_by("name")
+        serializer = CategorySerializer(categories, many=True)
+        return Response(serializer.data)
+
+    def post(self, request):
+        serializer = CategorySerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
