@@ -35,9 +35,10 @@ class CreateBlogPostView(APIView):
     def post(self, request):
         serializer = BlogPostSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save(author=request.user)  # set author here
+            serializer.save(author=request.user)  # category_id handled automatically
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 
 def blog_list_view(request):
