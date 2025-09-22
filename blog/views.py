@@ -5,7 +5,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.paginator import Paginator
-from django.db.models import Q
+from django.db.models import Q, Count
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django.views.generic import DetailView, UpdateView, DeleteView, ListView
@@ -20,6 +20,8 @@ from rest_framework.views import APIView
 from .models import BlogPost, Category
 from .serializers import BlogPostSerializer, CategorySerializer
 from .forms import BlogPostForm
+
+
 
 
 # ------------------ API VIEWS ------------------ #
@@ -137,11 +139,16 @@ class BlogPostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return super().form_valid(form)
 
 
+
 class CategoryListHTMLView(ListView):
     model = Category
     template_name = "blog/category_list.html"
     context_object_name = "categories"
     ordering = ["name"]
+
+    def get_queryset(self):
+        return Category.objects.annotate(post_count=Count("posts"))
+
 
 
 class CategoryPostsHTMLView(ListView):
