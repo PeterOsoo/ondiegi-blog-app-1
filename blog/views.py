@@ -11,7 +11,7 @@ from django.core.paginator import Paginator
 
 
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.views.generic import DetailView, UpdateView, DeleteView
+from django.views.generic import DetailView, UpdateView, DeleteView, ListView
 from django.urls import reverse_lazy, reverse
 
 from django.contrib.auth.decorators import login_required
@@ -19,6 +19,8 @@ from django.shortcuts import render, redirect
 from .forms import BlogPostForm
 
 from django.db.models import Q
+
+from django.shortcuts import get_object_or_404
 
 # blog/views.py
 from rest_framework import generics
@@ -138,3 +140,24 @@ class BlogPostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return super().form_valid(form)
 
 
+
+class CategoryListHTMLView(ListView):
+    model = Category
+    template_name = "blog/category_list.html"
+    context_object_name = "categories"
+    ordering = ["name"]
+
+class CategoryPostsHTMLView(ListView):
+    model = BlogPost
+    template_name = "blog/category_posts.html"
+    context_object_name = "posts"
+    paginate_by = 5
+
+    def get_queryset(self):
+        self.category = get_object_or_404(Category, slug=self.kwargs.get("slug"))
+        return BlogPost.objects.filter(category=self.category).order_by("-created_at")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["category"] = self.category
+        return context
